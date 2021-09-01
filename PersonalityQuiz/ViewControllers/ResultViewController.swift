@@ -13,18 +13,17 @@ class ResultViewController: UIViewController {
     @IBOutlet var resultLabel: UILabel!
     
     var answersFromQuestionsVC: [Answer] = []
-    
-    private var answerForMainResultLabel: String = ""
-    private var answerForResultLabel: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.setHidesBackButton(true, animated:true)
-        getResultsFromAnswers()
-        print("\(answersFromQuestionsVC)")
+        
+        mainResultLabel.text = String(getResultsFromAnswers().rawValue)
+        resultLabel.text = getResultsFromAnswers().definition
+        
     }
     
-    private func getResultsFromAnswers() {
+    private func getResultsFromAnswers() -> Animal {
         let answers = answersFromQuestionsVC
         
         let catCount = answers.filter { $0.animal == .cat }.count
@@ -33,18 +32,13 @@ class ResultViewController: UIViewController {
         let rabbitCount = answers.filter { $0.animal == .rabbit }.count
         
         if catCount > dogCount && catCount > turtleCount && catCount > rabbitCount {
-            mainResultLabel.text = String(Animal.cat.rawValue)
-            resultLabel.text = Animal.cat.definition
+            return Animal.cat
         } else if dogCount > catCount && dogCount > turtleCount && dogCount > rabbitCount {
-            mainResultLabel.text = String(Animal.dog.rawValue)
-            resultLabel.text = Animal.dog.definition
+            return Animal.dog
         } else if turtleCount > catCount && turtleCount > dogCount && turtleCount > rabbitCount {
-            mainResultLabel.text = String(Animal.turtle.rawValue)
-            resultLabel.text = Animal.turtle.definition
+            return Animal.turtle
         } else {
-            mainResultLabel.text = String(Animal.rabbit.rawValue)
-            resultLabel.text = Animal.rabbit.definition
+            return Animal.rabbit
         }
-            
     }
 }
